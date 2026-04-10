@@ -148,8 +148,8 @@ ${CARDIO_EQUIPMENT.join(", ")}
     "generalNote": "유산소 운동 전반적인 주의사항"
   },
   "nutritionAnalysis": {
-    "dailyCalorieTarget": "kcal 숫자",
-    "proteinTarget": "g 숫자",
+    "dailyCalorieTarget": "아래 공식으로 계산한 최종 kcal 정수값만 (단위 없이 숫자만, 예: 1450)",
+    "proteinTarget": "체중(kg) × 1.6 계산값 정수 (단위 없이 숫자만, 예: 112)",
     "deficientNutrients": [
       {
         "nutrient": "단백질",
@@ -159,6 +159,17 @@ ${CARDIO_EQUIPMENT.join(", ")}
     ],
     "dietRecommendation": "식단 방향 3~4줄"
   },
+
+칼로리 계산 공식 (반드시 아래 순서대로 계산):
+1. BMR은 인바디에 표시된 기초대사량 수치를 그대로 사용
+2. TDEE = BMR × 활동계수 (운동 주 3회 기준 1.375, 주 5회 이상 1.55)
+3. 목표 칼로리 결정:
+   - 체지방률이 남성 25% 이상 또는 여성 33% 이상 (비만): TDEE - 500 (적극 감량)
+   - 체지방률이 남성 20~25% 또는 여성 28~33% (과체중): TDEE - 300 (완만 감량)
+   - 체지방률이 남성 15~20% 또는 여성 23~28% (정상): TDEE ± 0 (유지)
+   - 골격근량이 또래 평균보다 10% 이상 부족 (저근육): TDEE + 200 (근육 증가)
+4. 최소 칼로리 제한: 여성 1200kcal, 남성 1500kcal 이하로 내려가지 않도록
+5. dailyCalorieTarget에는 최종 계산값만 기입 (소수점 없이 정수)
   "supplements": [
     {
       "name": "유청 단백질",
