@@ -48,7 +48,14 @@ export async function POST(req: NextRequest) {
   let text: string;
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash-lite",
+      generationConfig: {
+        temperature: 0,       // 결정적 출력 (동일 입력 → 동일 출력)
+        topP: 1,
+        topK: 1,
+      },
+    });
 
     const result = await model.generateContent([
       { text: buildPrompt() },
