@@ -25,6 +25,8 @@ export interface BodyComposition {
   visceralFat: string;
   boneMass: string;
   evaluation: string;
+  gender: string;
+  ageGroup: string;
   peerComparison: PeerComparison;
 }
 

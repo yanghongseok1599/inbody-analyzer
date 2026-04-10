@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
 import { buildPrompt } from "@/lib/prompt";
+import { computePeerComparison } from "@/lib/knhanes";
 import type { AnalysisResult } from "@/lib/types";
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
@@ -84,6 +85,23 @@ export async function POST(req: NextRequest) {
       { error: "분석 결과를 파싱할 수 없습니다. 인바디 결과지 이미지인지 확인해주세요." },
       { status: 422 }
     );
+  }
+
+  // KNHANES 국가 통계 기반 또래 비교 서버사이드 계산
+  try {
+    const bc = parsed.bodyComposition;
+    const peerComparison = computePeerComparison({
+      gender:      bc.gender   ?? "여성",
+      ageGroup:    bc.ageGroup ?? "30대",
+      muscleMass:  parseFloat(bc.muscleMass)    || 0,
+      bodyFatPct:  parseFloat(bc.bodyFatPercent) || 0,
+      bmi:         parseFloat(bc.bmi)            || 0,
+      bmr:         parseFloat(bc.bmr)            || 0,
+      tbw:         parseFloat(bc.tbw)            || 0,
+    });
+    parsed.bodyComposition.peerComparison = peerComparison;
+  } catch (e) {
+    console.error("peerComparison compute error:", e);
   }
 
   return NextResponse.json(parsed);
