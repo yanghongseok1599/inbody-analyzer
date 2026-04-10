@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash-latest",
+      model: "gemini-2.0-flash",
       generationConfig: {
         temperature: 0,       // 결정적 출력 (동일 입력 → 동일 출력)
         topP: 1,
